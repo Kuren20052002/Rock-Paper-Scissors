@@ -40,7 +40,7 @@ function RockPaperScissors(){
         while(user_score < points_to_win && computer_score < points_to_win){
             let user_choice = prompt("What will you choose?", "Rock, Paper or Scissors").toLowerCase().trim();
             while(user_choice !== "rock" && user_choice !== "paper" && user_choice !== "scissors"){
-                user_choice = prompt("Not a valid options, please choose again", "Rock, Paper or Scissors").toLowerCase().trim();
+                user_choice = prompt("Not a valid option, please choose again", "Rock, Paper or Scissors").toLowerCase().trim();
             }
 
             let computer_choice = getComputerChoice();
