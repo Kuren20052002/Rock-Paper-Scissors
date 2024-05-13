@@ -56,11 +56,11 @@ body{
     font-weight: lighter;
 }
 
-#play-button:hover{
+#play-button:hover, #Yes:hover, #No:hover{
     transform: scale(1.2);
 }
 
-#game{
+#game, #goodbye{
     margin-top: 15%;
     height: 100vh;
     display: flex;
@@ -82,11 +82,11 @@ body{
     gap: 20vh;
 }
 
-#your-score, #my-score, #result{
+#your-score, #my-score, #point-result{
     font-size: 48px;
 }
 
-#result{
+#point-result{
     margin: 0;
     height: 13vh;
 }
@@ -96,7 +96,7 @@ body{
     justify-content: center;
     align-items: center;
     gap: 20%;
-    margin-top: 10vh;
+    margin-top: 4vh;
 }
 
 .options-img {
@@ -107,6 +107,21 @@ body{
 
 .options-img:hover{
     transform: scale(1.1);
+}
+
+#play-again{
+    width: 150%;
+    display: flex;
+    margin-top: 10vh;
+    justify-content: space-between;
+    align-items: center;
+    gap: 35%;
+}
+
+#match-result, #offer, #Yes, #No {
+    margin: 0;
+    font-size: 128px;
+    transition: all 0.2s ease;
 }
 
 @font-face {
