@@ -1,9 +1,26 @@
+const playButton = document.querySelector('#play-button');
+playButton.addEventListener('click', RockPaperScissors);
+
+
+
+
+function toEndScreen(){
+    let scrollMark = document.querySelector('#goodbye');
+    scrollMark.scrollIntoView({behavior: "smooth"});
+}
+
+function toGameScreen(){
+    let scrollMark = document.querySelector('#game');
+    scrollMark.scrollIntoView({behavior: "smooth"});
+}
+
 function randomNumber(min, max){
     if(max < min) return "Try again stupid!";
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function getComputerChoice(){
+    //Computer choose randomly between 1 and 3 and the choice get converted to rock, paper, scissors
     switch(randomNumber(1,3)){
         case 1 : return 'rock';
         case 2 : return 'paper';
@@ -11,68 +28,113 @@ function getComputerChoice(){
     }
 }
 
-function pointResult(user_choice, computer_choice){
-    if(user_choice === computer_choice) return 0;
-    else if(user_choice === "rock" && computer_choice === "scissors") return 1;
-    else if(user_choice === "paper" && computer_choice === "rock") return 1;
-    else if(user_choice === "scissors" && computer_choice === "paper") return 1;
+function pointResult(playerChoice, computerChoice){
+    if(playerChoice === computerChoice) return 0;
+    else if(playerChoice === "rock" && computerChoice === "scissors") return 1;
+    else if(playerChoice === "paper" && computerChoice === "rock") return 1;
+    else if(playerChoice === "scissors" && computerChoice === "paper") return 1;
     else return -1;
 }
 
-function RockPaperScissors(){
-    let playGame = true;
-    while(playGame){
-        let points_to_win = +prompt("What's the number of points needed to win?", "1");
+function updatScoreBoard(playerScore, computerScore){
+    const playerScoreBoard = document.querySelector('#game #score-board #your-score');
+    const computerScoreBoard = document.querySelector('#game #score-board #my-score');
 
-        while(isNaN(points_to_win) || points_to_win < 1){
-            points_to_win = +prompt("Not valid, try again.", "1")
-        }
-        while(points_to_win > 9){
-            if(confirm(`Are you sure? \n${points_to_win} is a lot of points to play.`)  === true){
-                break;
-            }
-            else points_to_win = +prompt("What's the number of points needed to win?", "preferably less than 10");
-        }
+    playerScoreBoard.textContent = `You: ${playerScore}`;
+    computerScoreBoard.textContent = `PC: ${computerScore}`;
+}
 
-        let user_score = 0;
-        let computer_score = 0;
-
-        while(user_score < points_to_win && computer_score < points_to_win){
-            let user_choice = prompt("What will you choose?", "Rock, Paper or Scissors").toLowerCase().trim();
-            while(user_choice !== "rock" && user_choice !== "paper" && user_choice !== "scissors"){
-                user_choice = prompt("Not a valid option, please choose again", "Rock, Paper or Scissors").toLowerCase().trim();
-            }
-
-            let computer_choice = getComputerChoice();
-            let point_result = pointResult(user_choice, computer_choice);
-            
-            if(point_result > 0){
-                user_score++;
-                alert(`The computer choose ${computer_choice}, you won a point! \nCurrent score ${user_score} : ${computer_score}`);
-            }
-            else if(point_result < 0 ){
-                computer_score++;
-                alert(`The computer choose ${computer_choice}, too bad \nCurrent score ${user_score} : ${computer_score}`);
-            }
-            else alert(`The computer choose ${computer_choice}, a tie! \nCurrent score ${user_score} : ${computer_score}`);
+function endGame(playerScore, computerScore){
+    let matchResult = document.querySelector('#goodbye #match-result');
+    if(playerScore >=5 || computerScore >=5){
+        if(playerScore === 5){
+            matchResult.textContent = 'You won..'
         }
-
-        if(user_score === points_to_win){
-            let win_text = "Congrats, you won! \nPlay again?";
-            if(confirm(win_text) === false){
-                alert("Bye Bye!");
-                playGame = false;
-            }
+        else if(computerScore === 5){
+            matchResult.textContent = 'YOU LOST!!!!'
         }
-        else if(computer_score === points_to_win){
-            let lose_text = "You lose\nPlay again to get good?";
-            if(confirm(lose_text) === false){
-                alert("Let's get good another day.");
-                playGame = false;
-            }
-        }
+        toEndScreen();
     }
 }
+
+function fadeInAndOut() {
+    let overlay = document.createElement('div');
+    overlay.setAttribute('id', 'lightson');
+    document.body.appendChild(overlay);
+
+    overlay.offsetWidth;
+    overlay.setAttribute('id', 'blackout');
+
+    setTimeout(function() {
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+        });
+
+        setTimeout(function() {
+            overlay.setAttribute('id', 'lightson');
+            setTimeout(function() {
+                overlay.remove();
+            }, 1000);
+        }, 1000); // Adjusted timing to initiate fading out after scrolling
+    }, 1000); // Initial delay before scrolling
+}  
+
+
+function RockPaperScissors() {
+    toGameScreen();
+
+    let playerScore = 0;
+    let computerScore = 0;
+
+    const gameChoice = document.querySelectorAll('#game #options .options-img');
+    const playAgainChoice = document.querySelectorAll('#goodbye #play-again .you-had-fun');
+
+    gameChoice.forEach(function(choice) {
+        choice.addEventListener('click', function() {
+            const playerChoice = this.id;
+            const computerChoice = getComputerChoice();
+
+            const thisPoint = pointResult(playerChoice, computerChoice);
+            const pointResultText = document.querySelector('#point-result');
+            switch(thisPoint){
+                case 0:
+                    pointResultText.textContent = `I chose ${computerChoice}, we draw!`;
+                    updatScoreBoard(playerScore, computerScore);
+                    break;
+                case -1:
+                    pointResultText.textContent = `I chose ${computerChoice}, you lose!!`;
+                    computerScore++;
+                    updatScoreBoard(playerScore, computerScore);
+                    break;
+                default:
+                    pointResultText.textContent = `I chose ${computerChoice}, i'll get you next point`;
+                    playerScore++;
+                    updatScoreBoard(playerScore, computerScore);
+                    break;     
+            };
+            
+            endGame(playerScore, computerScore);
+        });
+    });
+
+    playAgainChoice.forEach(function(choice) {
+        choice.addEventListener('click', function() {
+            if(this.id === 'Yes'){
+                fadeInAndOut();
+                playerScore = 0;
+                computerScore = 0;
+                updatScoreBoard(playerScore, computerScore);
+            }
+            else if(this.id === 'No'){
+                window.close();
+                console.log('Closed');
+            }
+        })
+    });
+}
+
 
 
 
