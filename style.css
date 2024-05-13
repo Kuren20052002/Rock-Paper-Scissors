@@ -5,7 +5,7 @@ body{
     background-size: cover;
     box-sizing: border-box;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -60,6 +60,54 @@ body{
     transform: scale(1.2);
 }
 
+#game{
+    margin-top: 15%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#choose-text{
+    font-size: 96px;
+    margin: 0;
+}
+
+#score-board{
+    display: flex;
+    height: 10vh;
+    justify-content: center;
+    align-items: center;
+    gap: 20vh;
+}
+
+#your-score, #my-score, #result{
+    font-size: 48px;
+}
+
+#result{
+    margin: 0;
+    height: 13vh;
+}
+
+#options{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20%;
+    margin-top: 10vh;
+}
+
+.options-img {
+    width: 270px;
+    height: 295px;
+    transition: all 0.2s ease;
+}
+
+.options-img:hover{
+    transform: scale(1.1);
+}
 
 @font-face {
     font-family: Itim;
