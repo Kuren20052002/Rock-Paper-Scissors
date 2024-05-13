@@ -1,13 +1,69 @@
 body{
-    font-family: 'Itim';
+    font-family: "Itim";
     background-image: url('./IMG/BG.png');
     background-position: center top;
     background-size: cover;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
+
+#title{
+    font-family: "Itim";
+    font-size: 96px;
+    letter-spacing: 2px;
+    font-weight: lighter;
+    margin-top: 28%;
+    text-align: center;
+    overflow: hidden;
+
+}
+
+#home{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#play-button-img{
+    width: 200px;
+    height: 200px;
+}
+
+#play-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    gap: 4%;
+    width: 20%;
+    height: 15vh;
+    padding-bottom: 10vh;
+}
+
+#play-button-img{
+    width: 150px;
+    height: 150px;
+    flex-shrink: 1;
+}
+
+#play-button-text{
+    font-family: Itim;
+    font-size: 96px;
+    font-weight: lighter;
+}
+
+#play-button:hover{
+    transform: scale(1.2);
+}
+
 
 @font-face {
     font-family: Itim;
     src: url(./Fonts/Itim.ttf);
-    font-weight: 300;
+    font-weight: 100;
     font-style: normal;
 }
