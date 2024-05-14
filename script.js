@@ -46,11 +46,11 @@ function updatScoreBoard(playerScore, computerScore){
 
 function endGame(playerScore, computerScore){
     let matchResult = document.querySelector('#goodbye #match-result');
-    if(playerScore >=5 || computerScore >=5){
-        if(playerScore === 5){
+    if(playerScore >= 3 || computerScore >= 3){
+        if(playerScore === 3){
             matchResult.textContent = 'You won..'
         }
-        else if(computerScore === 5){
+        else if(computerScore === 3){
             matchResult.textContent = 'YOU LOST!!!!'
         }
         toEndScreen();
