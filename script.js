@@ -1,8 +1,60 @@
 const playButton = document.querySelector('#play-button');
-playButton.addEventListener('click', RockPaperScissors);
+const gameChoice = document.querySelectorAll('#game #options .options-img');
+const playAgainChoice = document.querySelectorAll('#goodbye #play-again .you-had-fun');
+
+let playerScore = 0;
+let computerScore = 0;
+
+playButton.addEventListener('click', toGameScreen);
+
+gameChoice.forEach(function(choice) {
+    choice.addEventListener('click', handleGame)
+});
 
 
 
+playAgainChoice.forEach(function(choice) {
+    choice.addEventListener('click', handleEnd)
+});
+
+function handleGame(){
+        const playerChoice = this.id;
+        const computerChoice = getComputerChoice();
+
+        const thisPoint = pointResult(playerChoice, computerChoice);
+        const pointResultText = document.querySelector('#point-result');
+        switch(thisPoint){
+            case 0:
+                pointResultText.textContent = `I chose ${computerChoice}, we draw!`;
+                updatScoreBoard(playerScore, computerScore);
+                break;
+            case -1:
+                pointResultText.textContent = `I chose ${computerChoice}, you lose!!`;
+                computerScore++;
+                updatScoreBoard(playerScore, computerScore);
+                break;
+            default:
+                pointResultText.textContent = `I chose ${computerChoice}, i'll get you next point`;
+                playerScore++;
+                updatScoreBoard(playerScore, computerScore);
+                break;     
+        };
+        
+        endGame(playerScore, computerScore);
+}
+
+function handleEnd(){
+    if(this.id === 'Yes'){
+        fadeInAndOut();
+        playerScore = 0;
+        computerScore = 0;
+        updatScoreBoard(playerScore, computerScore);
+    }
+    else if(this.id === 'No'){
+        window.close();
+        console.log('Closed');
+    }
+}
 
 function toEndScreen(){
     let scrollMark = document.querySelector('#goodbye');
@@ -81,59 +133,6 @@ function fadeInAndOut() {
     }, 1000); // Initial delay before scrolling
 }  
 
-
-function RockPaperScissors() {
-    toGameScreen();
-
-    let playerScore = 0;
-    let computerScore = 0;
-
-    const gameChoice = document.querySelectorAll('#game #options .options-img');
-    const playAgainChoice = document.querySelectorAll('#goodbye #play-again .you-had-fun');
-
-    gameChoice.forEach(function(choice) {
-        choice.addEventListener('click', function() {
-            const playerChoice = this.id;
-            const computerChoice = getComputerChoice();
-
-            const thisPoint = pointResult(playerChoice, computerChoice);
-            const pointResultText = document.querySelector('#point-result');
-            switch(thisPoint){
-                case 0:
-                    pointResultText.textContent = `I chose ${computerChoice}, we draw!`;
-                    updatScoreBoard(playerScore, computerScore);
-                    break;
-                case -1:
-                    pointResultText.textContent = `I chose ${computerChoice}, you lose!!`;
-                    computerScore++;
-                    updatScoreBoard(playerScore, computerScore);
-                    break;
-                default:
-                    pointResultText.textContent = `I chose ${computerChoice}, i'll get you next point`;
-                    playerScore++;
-                    updatScoreBoard(playerScore, computerScore);
-                    break;     
-            };
-            
-            endGame(playerScore, computerScore);
-        });
-    });
-
-    playAgainChoice.forEach(function(choice) {
-        choice.addEventListener('click', function() {
-            if(this.id === 'Yes'){
-                fadeInAndOut();
-                playerScore = 0;
-                computerScore = 0;
-                updatScoreBoard(playerScore, computerScore);
-            }
-            else if(this.id === 'No'){
-                window.close();
-                console.log('Closed');
-            }
-        })
-    });
-}
 
 
 
