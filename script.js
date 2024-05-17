@@ -51,8 +51,12 @@ function handleEnd(){
         updatScoreBoard(playerScore, computerScore);
     }
     else if(this.id === 'No'){
-        window.close();
-        console.log('Closed');
+        let overlay = document.createElement('div');
+        overlay.setAttribute('id', 'blackout');
+        document.body.appendChild(overlay);
+        playAgainChoice.forEach((choice) => {
+            choice.remove();
+        });
     }
 }
 
@@ -132,6 +136,13 @@ function fadeInAndOut() {
         }, 1000); // Adjusted timing to initiate fading out after scrolling
     }, 1000); // Initial delay before scrolling
 }  
+
+window.onload = function() {
+    window.scrollTo({
+        top: 0,
+        left: 0
+    });
+};
 
 
 
